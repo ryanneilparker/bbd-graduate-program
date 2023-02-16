@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[Users](
 	[userID] [int] IDENTITY(1,1) NOT NULL,
 	[userName] [varchar](120) NULL,
 	[userEmail] [varchar](120) NULL,
-  [isAdmin] [bit] NULL,
+  	[isAdmin] [bit] NULL,
 	CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([userID] ASC)
 );
 GO
