@@ -16,11 +16,33 @@ CREATE TABLE [dbo].[Users](
 );
 GO
 
+INSERT INTO [dbo].[Users]
+           ([userName]
+		   ,[userEmail]
+		   ,[isAdmin]
+           )
+VALUES    ('sagofiwa', 'sagofiwa@email.com', 0),
+    ('piwa', 'piwa@email.com', 0),
+    ('manuel', 'manuel@email.com', 0),
+    ('adiba', 'adiba@email.com', 1),
+    ('saurav', 'saurav@email.com', 1)
+GO
+
 CREATE TABLE [dbo].[Accounts](
 	[accountID] [int] IDENTITY(1,1) NOT NULL,
 	[accountType] [varchar](120) NULL,
 	CONSTRAINT [PK_Accounts] PRIMARY KEY CLUSTERED ([accountID] ASC)
 );
+GO
+
+INSERT INTO [dbo].[Accounts]
+           ([accountType]
+           )
+VALUES    ('bank'),
+    ('brokerage'),
+    ('savings'),
+    ('credit'),
+    ('retirement annuity')
 GO
 
 CREATE TABLE [dbo].[Investments](
