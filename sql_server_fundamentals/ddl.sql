@@ -97,14 +97,24 @@ REFERENCES [dbo].[Instruments] ([instrumentID])
 GO
 
 -- Create User Account View
-CREATE VIEW [dbo].[View-User-Accounts] 
-AS
-SELECT dbo.Users.userName AS Username, dbo.Providers.providerName AS Provider, dbo.Accounts.accountType AS Account, dbo.Instruments.instrumentType AS Instrument, dbo.Investments.investmentValue AS Value
-FROM     dbo.Users INNER JOIN
-                  dbo.[User-Accounts] ON dbo.Users.userID = dbo.[User-Accounts].userID INNER JOIN
-                  dbo.Investments ON dbo.[User-Accounts].userAccountID = dbo.Investments.userAccountID INNER JOIN
-                  dbo.[Provider-Accounts] ON dbo.[User-Accounts].providerAccountID = dbo.[Provider-Accounts].providerAccountID INNER JOIN
-                  dbo.Providers ON dbo.[Provider-Accounts].providerID = dbo.Providers.providerID INNER JOIN
-                  dbo.Accounts ON dbo.[Provider-Accounts].accountID = dbo.Accounts.accountID INNER JOIN
-                  dbo.Instruments ON dbo.Investments.instrumentID = dbo.Instruments.instrumentID
+CREATE VIEW UserAccountInvestments AS
+SELECT [User-Accounts].userAccountID, Users.userName, Accounts.accountType, Instruments.instrumentType, Investments.investmentValue
+FROM [User-Accounts]
+	JOIN Investments ON [User-Accounts].userAccountID = Investments.userAccountID
+	JOIN Instruments ON Investments.instrumentID = Instruments.instrumentID
+	JOIN [Provider-Accounts] ON [User-Accounts].providerAccountID = [Provider-Accounts].providerAccountID
+	JOIN Accounts ON [Provider-Accounts].accountID = Accounts.accountID
+	JOIN Providers ON [Provider-Accounts].providerID = Providers.providerID
+	JOIN Users ON [User-Accounts].userID = Users.userID;
+GO
+
+-- Create Provider Summary View
+CREATE VIEW ProviderAccountSummary AS
+SELECT Providers.providerName, Accounts.accountType, COUNT(DISTINCT [User-Accounts].userID) AS NumUsers, SUM(Investments.investmentValue) AS TotalInvestmentValue
+FROM Providers
+	JOIN [Provider-Accounts] ON Providers.providerID = [Provider-Accounts].providerID
+	JOIN Accounts ON [Provider-Accounts].accountID = Accounts.accountID
+	JOIN [User-Accounts] ON [Provider-Accounts].providerAccountID = [User-Accounts].providerAccountID
+	LEFT JOIN Investments ON [User-Accounts].userAccountID = Investments.userAccountID
+GROUP BY Providers.providerName, Accounts.accountType;
 GO
