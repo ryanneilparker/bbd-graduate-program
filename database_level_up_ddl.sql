@@ -25,7 +25,8 @@ VALUES    ('sagofiwa', 'sagofiwa@email.com', 0),
     ('piwa', 'piwa@email.com', 0),
     ('manuel', 'manuel@email.com', 0),
     ('adiba', 'adiba@email.com', 1),
-    ('saurav', 'saurav@email.com', 1)
+    ('saurav', 'saurav@email.com', 1),
+    ('ryan', 'ryan@email.com', 0)
 GO
 
 CREATE TABLE [dbo].[Accounts](
@@ -52,11 +53,32 @@ CREATE TABLE [dbo].[Investments](
 );
 GO
 
+INSERT INTO [dbo].[Investments]
+           ([invesetmentType]
+           )
+VALUES    ('fixed deposit'),
+    ('common stock'),
+    ('crypto currency'),
+    ('bond'),
+    ('mutual fund')
+GO
+
 CREATE TABLE [dbo].[Providers](
 	[providerID] [int] IDENTITY(1,1) NOT NULL,
 	[providerName] [varchar](120) NULL,
 	CONSTRAINT [PK_Providers] PRIMARY KEY CLUSTERED ([providerID] ASC)
 );
+GO
+
+INSERT INTO [dbo].[Providers]
+           ([providerName]
+           )
+VALUES    ('ABSA'),
+    ('FNB'),
+    ('Capitec'),
+    ('Sanlam'),
+    ('Old Mutual'),
+	('Anchor Stockbrokers')
 GO
 
 CREATE TABLE [dbo].[Provider-Accounts](
@@ -71,6 +93,27 @@ GO
 
 ALTER TABLE [dbo].[Provider-Accounts]  WITH CHECK ADD  CONSTRAINT [FK_Provider_Accounts_Accounts] FOREIGN KEY([accountID])
 REFERENCES [dbo].[Accounts] ([accountID])
+GO
+
+INSERT INTO [dbo].[Provider-Accounts]
+           ([providerID],
+		   [accountID]
+           )
+VALUES    (1, 1),
+	(1, 2),
+	(1, 3),
+	(1, 4),
+	(2, 1),
+	(2, 2),
+	(2, 3),
+	(2, 4),
+	(3, 1),
+	(3, 3),
+	(3, 4),
+	(4, 5),
+	(5, 4),
+	(5, 5),
+	(6, 2)
 GO
 
 CREATE TABLE [dbo].[User-Accounts](
@@ -90,6 +133,27 @@ GO
 
 ALTER TABLE [dbo].[User-Accounts]  WITH CHECK ADD  CONSTRAINT [FK_User_Accounts_Providers] FOREIGN KEY([providerID])
 REFERENCES [dbo].[Providers] ([providerID])
+GO
+
+INSERT INTO [dbo].[User-Accounts]
+           ([userID],
+		   [accountID],
+		   [providerID]
+           )
+VALUES    (1, 1, 3),
+	(1, 3, 3),
+	(1, 5, 5),
+	(2, 1, 2),
+	(2, 4, 2),
+	(3, 5, 4),
+	(4, 1, 1),
+	(4, 2, 1),
+	(5, 1, 2),
+	(5, 2, 6),
+	(6, 1, 1),
+	(6, 2, 1),
+	(6, 3, 1),
+	(6, 4, 1)
 GO
 
 CREATE TABLE [dbo].[Transactions](
