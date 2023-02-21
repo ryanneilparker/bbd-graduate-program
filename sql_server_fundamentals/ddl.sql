@@ -46,10 +46,10 @@ GO
 
 -- Create Provider-Accounts Intersection Table
 CREATE TABLE [dbo].[Provider-Accounts](
-  [providerAccountID] [int] NOT NULL,
+  	[providerAccountID] [int] IDENTITY(1,1) NOT NULL,
 	[providerID] [int] NOT NULL,
 	[accountID] [int] NOT NULL,
-  CONSTRAINT [PK_Provider-Accounts] PRIMARY KEY CLUSTERED ([providerAccountID] ASC)
+  	CONSTRAINT [PK_Provider-Accounts] PRIMARY KEY CLUSTERED ([providerAccountID] ASC)
 );
 GO
 
@@ -63,7 +63,7 @@ GO
 
 -- Create User-Accounts Intersection Table
 CREATE TABLE [dbo].[User-Accounts](
-  [userAccountID] [int] NOT NULL,
+  	[userAccountID] [int] IDENTITY(1,1) NOT NULL,
 	[userID] [int] NOT NULL,
 	[providerAccountID] [int] NOT NULL,
 	CONSTRAINT [PK_User-Accounts] PRIMARY KEY CLUSTERED ([userAccountID] ASC)
@@ -82,9 +82,9 @@ GO
 CREATE TABLE [dbo].[Investments](
 	[investmentID] [int] IDENTITY(1,1) NOT NULL,
 	[userAccountID] [int] NOT NULL,
-  [instrumentID] [int] NOT NULL,
+  	[instrumentID] [int] NOT NULL,
 	[investmentValue] [float] NULL,
-  CONSTRAINT [PK_Investments] PRIMARY KEY CLUSTERED ([investmentID] ASC)
+	CONSTRAINT [PK_Investments] PRIMARY KEY CLUSTERED ([investmentID] ASC)
 );
 GO
 
