@@ -1,15 +1,14 @@
 erDiagram
-    USERS ||--o{ TRANSACTIONS : ""
-    USERS ||--o{ USER-ACCOUNTS : ""
+    USERS ||--o{ USER-ACCOUNTS : "have"
 
-    PROVIDERS ||--|{ PROVIDER-ACCOUNTS : ""
-    PROVIDERS ||--|{ USER-ACCOUNTS : ""
+    PROVIDERS ||--|{ PROVIDER-ACCOUNTS : "offer"
 
-    ACCOUNTS ||--|{ PROVIDER-ACCOUNTS : ""
-    ACCOUNTS ||--|{ TRANSACTIONS : ""
-    ACCOUNTS ||--|{ USER-ACCOUNTS : ""
+    ACCOUNTS ||--|{ PROVIDER-ACCOUNTS : "are provided by"
 
-    INVESTMENTS ||--|{ TRANSACTIONS : ""
+    PROVIDER-ACCOUNTS ||--o{ USER-ACCOUNTS : "are associated with"
+
+    INSTRUMENTS ||--o{ INVESTMENTS : "are used in"
+    USER-ACCOUNTS ||--o{INVESTMENTS : "own"
 
     USERS {
         int userID PK
@@ -19,9 +18,9 @@ erDiagram
     }
 
     USER-ACCOUNTS {
+        int userAccountID PK
         int userID FK
-        int accountID FK
-        int providerID FK
+        int providerAccountID FK
     }
 
     PROVIDERS {
@@ -30,6 +29,7 @@ erDiagram
     }
 
     PROVIDER-ACCOUNTS {
+        int providerAccountID PK
         int providerID FK
         int accountID FK
     }
@@ -39,16 +39,13 @@ erDiagram
         string accountType
     }
 
-    INVESTMENTS {
-        int investmentID PK
-        string investmentType
+    INSTRUMENTS {
+        int instrumentID PK
+        string instrumentType
     }
 
-    TRANSACTIONS {
+    INVESTMENTS {
         int investmentID PK
-        int userID FK
-        int accountID FK
-        string investmentID FK
+        int userAccountID FK
         float investmentValue
-
     }
