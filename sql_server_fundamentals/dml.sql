@@ -1,17 +1,12 @@
 -- SQL DML Queries
 
-
+-- Populate Users Table
 INSERT INTO [dbo].[Users]
-           ([userName]
-		   ,[userEmail]
-		   ,[isAdmin]
-           )
-VALUES    ('sagofiwa', 'sagofiwa@email.com', 0),
-    ('piwa', 'piwa@email.com', 0),
-    ('manuel', 'manuel@email.com', 0),
-    ('adiba', 'adiba@email.com', 1),
-    ('saurav', 'saurav@email.com', 1),
-    ('ryan', 'ryan@email.com', 0)
+	([userName], [userEmail], [isAdmin])
+VALUES    
+	('Alice', 'alice@email.com', 1),
+	('Bob', 'bob@email.com', 0),
+	('Carol', 'carol@email.com', 0)
 GO
 
 
