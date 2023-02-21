@@ -47,5 +47,7 @@ erDiagram
     INVESTMENTS {
         int investmentID PK
         int userAccountID FK
+        int instrumentID FK
         float investmentValue
     }
+    
