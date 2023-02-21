@@ -9,80 +9,74 @@ VALUES
 	('Carol', 'carol@email.com', 0)
 GO
 
-
+-- Populate Accounts Table
 INSERT INTO [dbo].[Accounts]
-           ([accountType]
-           )
-VALUES    ('bank'),
-    ('brokerage'),
+           ([accountType])
+VALUES    
+	('cheque'),
     ('savings'),
-    ('credit'),
+    ('brokerage'),
     ('retirement annuity')
 GO
 
-
-INSERT INTO [dbo].[Investments]
-           ([invesetmentType]
-           )
-VALUES    ('fixed deposit'),
-    ('common stock'),
-    ('crypto currency'),
+-- Populate Instruments Table
+INSERT INTO [dbo].[Instruments]
+           ([instrumentType])
+VALUES    
+	('cash'),
+	('deposit'),
     ('bond'),
-    ('mutual fund')
+    ('common stock'),
+    ('crypto currency')
 GO
 
-
+-- Populate Providers Table
 INSERT INTO [dbo].[Providers]
-           ([providerName]
-           )
-VALUES    ('ABSA'),
-    ('FNB'),
-    ('Capitec'),
+           ([providerName])
+VALUES    
+	('Barclays'),
+    ('Credit Suisse'),
     ('Sanlam'),
-    ('Old Mutual'),
-	('Anchor Stockbrokers')
+	('Binance')
 GO
 
-
+-- Populate Provider-Accounts Intersection Table
 INSERT INTO [dbo].[Provider-Accounts]
-           ([providerID],
-		   [accountID]
-           )
-VALUES    (1, 1),
-	(1, 2),
-	(1, 3),
-	(1, 4),
-	(2, 1),
-	(2, 2),
-	(2, 3),
-	(2, 4),
-	(3, 1),
-	(3, 3),
-	(3, 4),
-	(4, 5),
-	(5, 4),
-	(5, 5),
-	(6, 2)
+           ([providerID], [accountID])
+VALUES    
+	(1, 1), -- barclays cheque
+	(1, 2), -- barclays savings
+	(2, 1), -- credit suisse cheque
+	(2, 2), -- credit suisse savings
+	(2, 3), -- credit suisse brokerage
+	(3, 4), -- sanlam retirement annuity
+	(4, 3) -- binance brokerage
 GO
 
-
+-- Populate User-Accounts Intersection Table
 INSERT INTO [dbo].[User-Accounts]
-           ([userID],
-		   [accountID],
-		   [providerID]
-           )
-VALUES    (1, 1, 3),
-	(1, 3, 3),
-	(1, 5, 5),
-	(2, 1, 2),
-	(2, 4, 2),
-	(3, 5, 4),
-	(4, 1, 1),
-	(4, 2, 1),
-	(5, 1, 2),
-	(5, 2, 6),
-	(6, 1, 1),
-	(6, 2, 1),
-	(6, 3, 1),
-	(6, 4, 1)
+           ([userID], [providerAccountID])
+VALUES    
+	(1, 1), -- alice cheque
+	(1, 2), -- alice savings
+	(1, 7), -- alice brokerage
+	(2, 3), -- bob cheque
+	(2, 4), -- bob savings
+	(2, 5), -- bob brokerage
+	(3, 1), -- charlie cheque
+	(3, 6) -- charlie retirement annuity
+GO
+
+-- Populate Investments Table
+INSERT INTO [dbo].[Investments]
+			([userAccountID], [instrumentID], [investmentValue])
+VALUES
+	(1, 1, 10000), -- cheque cash
+	(2, 2, 50000), -- savings deposit
+	(3, 5, 20000), -- brokerage crypto currency 
+	(4, 1, 2000), -- cheque cash
+	(5, 2, 45000), -- savings deposit
+	(6, 4, 100000), -- brokerage common stock
+	(7, 1, 12000), -- cheque cash
+	(8, 3, 80000) -- retirement annuity bond
 GO
