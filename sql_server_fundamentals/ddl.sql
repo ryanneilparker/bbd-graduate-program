@@ -95,3 +95,16 @@ GO
 ALTER TABLE [dbo].[Investments]  WITH CHECK ADD  CONSTRAINT [FK_Investments_Instruments] FOREIGN KEY([instrumentID])
 REFERENCES [dbo].[Instruments] ([instrumentID])
 GO
+
+-- Create User Account View
+CREATE VIEW [dbo].[View-User-Accounts] 
+AS
+SELECT dbo.Users.userName AS Username, dbo.Providers.providerName AS Provider, dbo.Accounts.accountType AS Account, dbo.Instruments.instrumentType AS Instrument, dbo.Investments.investmentValue AS Value
+FROM     dbo.Users INNER JOIN
+                  dbo.[User-Accounts] ON dbo.Users.userID = dbo.[User-Accounts].userID INNER JOIN
+                  dbo.Investments ON dbo.[User-Accounts].userAccountID = dbo.Investments.userAccountID INNER JOIN
+                  dbo.[Provider-Accounts] ON dbo.[User-Accounts].providerAccountID = dbo.[Provider-Accounts].providerAccountID INNER JOIN
+                  dbo.Providers ON dbo.[Provider-Accounts].providerID = dbo.Providers.providerID INNER JOIN
+                  dbo.Accounts ON dbo.[Provider-Accounts].accountID = dbo.Accounts.accountID INNER JOIN
+                  dbo.Instruments ON dbo.Investments.instrumentID = dbo.Instruments.instrumentID
+GO
