@@ -6,7 +6,7 @@ RETURNS TABLE
 AS
 RETURN
 (
-    SELECT Investments.investmentID, Investments.investmentValue, Accounts.accountType, Providers.providerName, Instruments.instrumentName
+    SELECT Investments.investmentID, Investments.investmentValue, Accounts.accountType, Providers.providerName, Instruments.instrumentType
     FROM Investments
     INNER JOIN [User-Accounts] ON [User-Accounts].userAccountID = Investments.userAccountID
     INNER JOIN [Provider-Accounts] ON [Provider-Accounts].providerAccountID = [User-Accounts].providerAccountID
@@ -24,7 +24,7 @@ RETURNS MONEY
 AS
 BEGIN
     DECLARE @totalInvestment MONEY;
-    SELECT @totalInvestment = SUM(investmentAmount) FROM Investments WHERE userAccountID = @userAccountID;
+    SELECT @totalInvestment = SUM(investmentValue) FROM Investments WHERE userAccountID = @userAccountID;
     RETURN @totalInvestment;
 END;
 -- SELECT dbo.GetTotalInvestmentsValue(123)
