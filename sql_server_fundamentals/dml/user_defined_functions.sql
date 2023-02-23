@@ -16,6 +16,7 @@ RETURN
     WHERE [User-Accounts].userID = @userID
 );
 -- SELECT * FROM dbo.GetUserInvestments(123)
+GO
 
 -- Get User Account Investments
 CREATE FUNCTION GetTotalInvestmentValue (@userAccountID int)
@@ -27,6 +28,7 @@ BEGIN
     RETURN @totalInvestment;
 END;
 -- SELECT dbo.GetTotalInvestmentsValue(123)
+GO
 
 -- Get User Accounts
 CREATE FUNCTION GetUserAccounts (@userID int)
@@ -42,3 +44,4 @@ RETURN
     WHERE ua.userID = @userID
 );
 -- SELECT * FROM dbo.GetUserAccounts(1)
+GO
