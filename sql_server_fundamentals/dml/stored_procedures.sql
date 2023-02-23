@@ -97,15 +97,3 @@ BEGIN
     WHERE [investmentID] = @investmentID;
 END;
 --EXEC [dbo].[UpdateInvestmentValue] @investmentID = <investmentID>, @newInvestmentValue = <newInvestmentValue>;
-
--- Update Investment Value
-CREATE PROCEDURE [dbo].[UpdateInvestmentValue]
-    @investmentID INT,
-    @newInvestmentValue FLOAT
-AS
-BEGIN
-    UPDATE [dbo].[Investments]
-    SET [investmentValue] = @newInvestmentValue
-    WHERE [investmentID] = @investmentID;
-END;
-EXEC [dbo].[UpdateInvestmentValue] @investmentID = <investmentID>, @newInvestmentValue = <newInvestmentValue>;
