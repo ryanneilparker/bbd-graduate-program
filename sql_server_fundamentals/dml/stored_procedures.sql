@@ -1,4 +1,4 @@
-stored_procedures.sql
+-- stored_procedures.sql
 
 -- Get Total Investments By Users
 CREATE PROCEDURE [dbo].[GetUserInvestmentValues]
