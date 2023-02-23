@@ -87,45 +87,19 @@ GO
 
 -- <---------- STORED PROCEDURES ---------->
 
--- Get Total Investments By Users
+-- Get Total Investments By Users ----------
 CREATE PROCEDURE [dbo].[GetUserInvestmentValues]
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT Username, SUM(Value) AS TotalInvestmentValue
-    FROM [dbo].[View-User-Accounts]
-    GROUP BY Username;
+    SELECT userName, SUM(investmentValue) AS TotalInvestmentValue
+    FROM [dbo].[UserAccountInvestments]
+    GROUP BY userName;
 END;
--- EXEC [dbo].[GetUserInvestmentValues];
+EXEC [dbo].[GetUserInvestmentValues];
 
--- Insert New Investment
-CREATE PROCEDURE [dbo].[InsertInvestment]
-    @userAccountID INT,
-    @instrumentID INT,
-    @investmentValue FLOAT = NULL
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    INSERT INTO [dbo].[Investments] ([userAccountID], [instrumentID], [investmentValue])
-    VALUES (@userAccountID, @instrumentID, @investmentValue);
-END;
--- EXEC [dbo].[InsertInvestment] @userAccountID = <userAccountID>, @instrumentID = <instrumentID>, @investmentValue = <investmentValue>;
-
--- Update Investment Value
-CREATE PROCEDURE [dbo].[UpdateInvestmentValue]
-    @investmentID INT,
-    @newInvestmentValue FLOAT
-AS
-BEGIN
-    UPDATE [dbo].[Investments]
-    SET [investmentValue] = @newInvestmentValue
-    WHERE [investmentID] = @investmentID;
-END;
--- EXEC [dbo].[UpdateInvestmentValue] @investmentID = <investmentID>, @newInvestmentValue = <newInvestmentValue>;
-
--- Add New User Account
+-- Add New User Account ----------
 CREATE PROCEDURE [dbo].[AddUserAccount]
     @UserID INT,
     @ProviderName VARCHAR(120),
@@ -149,7 +123,7 @@ BEGIN
         -- Check if the account already exists for this provider in the Provider-Accounts table
         DECLARE @AccountID INT
         SELECT @AccountID = pa.accountID
-        FROM Provider-Accounts pa
+        FROM [Provider-Accounts] pa
         INNER JOIN Providers p ON p.providerID = pa.providerID
         INNER JOIN Accounts a ON a.accountID = pa.accountID
         WHERE p.providerName = @ProviderName AND a.accountType = @AccountType
@@ -162,9 +136,9 @@ BEGIN
         END
 
         -- Add a new record to the User-Accounts table for this user and account
-        INSERT INTO User-Accounts (userID, providerAccountID)
+        INSERT INTO [User-Accounts] (userID, providerAccountID)
         SELECT @UserID, pa.providerAccountID
-        FROM Provider-Accounts pa
+        FROM [Provider-Accounts] pa
         INNER JOIN Providers p ON p.providerID = pa.providerID
         INNER JOIN Accounts a ON a.accountID = pa.accountID
         WHERE p.providerName = @ProviderName AND a.accountType = @AccountType
@@ -185,6 +159,34 @@ EXEC dbo.AddUserAccount
     	@AccountType = 'Savings'
 */
 
+-- Insert New Investment
+CREATE PROCEDURE [dbo].[InsertInvestment]
+    @userAccountID INT,
+    @instrumentID INT,
+    @investmentValue FLOAT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO [dbo].[Investments] ([userAccountID], [instrumentID], [investmentValue])
+    VALUES (@userAccountID, @instrumentID, @investmentValue);
+END;
+EXEC [dbo].[InsertInvestment] @userAccountID = <userAccountID>, @instrumentID = <instrumentID>, @investmentValue = <investmentValue>;
+
+-- Update Investment Value
+CREATE PROCEDURE [dbo].[UpdateInvestmentValue]
+    @investmentID INT,
+    @newInvestmentValue FLOAT
+AS
+BEGIN
+    UPDATE [dbo].[Investments]
+    SET [investmentValue] = @newInvestmentValue
+    WHERE [investmentID] = @investmentID;
+END;
+EXEC [dbo].[UpdateInvestmentValue] @investmentID = <investmentID>, @newInvestmentValue = <newInvestmentValue>;
+
+
+
 
 -- <---------- USER DEFINED FUNCTIONS ---------->
 
@@ -194,7 +196,7 @@ RETURNS TABLE
 AS
 RETURN
 (
-    SELECT Investments.investmentID, Investments.investmentAmount, Accounts.accountType, Providers.providerName, Instruments.instrumentName
+    SELECT Investments.investmentID, Investments.investmentValue, Accounts.accountType, Providers.providerName, Instruments.instrumentName
     FROM Investments
     INNER JOIN [User-Accounts] ON [User-Accounts].userAccountID = Investments.userAccountID
     INNER JOIN [Provider-Accounts] ON [Provider-Accounts].providerAccountID = [User-Accounts].providerAccountID
@@ -203,7 +205,7 @@ RETURN
     INNER JOIN Instruments ON Instruments.instrumentID = Investments.instrumentID
     WHERE [User-Accounts].userID = @userID
 );
--- SELECT * FROM dbo.GetUserInvestments(123)
+SELECT * FROM dbo.GetUserInvestments(123)
 
 -- Get Investments By User Account
 CREATE FUNCTION GetTotalInvestmentValue (@userAccountID int)
@@ -222,9 +224,10 @@ AS
 RETURN
 (
     SELECT ua.userAccountID, a.accountType, p.providerName
-    FROM User-Accounts ua
-    INNER JOIN Provider-Accounts pa ON pa.providerAccountID = ua.providerAccountID
+    FROM [User-Accounts] ua
+    INNER JOIN [Provider-Accounts] pa ON pa.providerAccountID = ua.providerAccountID
     INNER JOIN Accounts a ON a.accountID = pa.accountID
     INNER JOIN Providers p ON p.providerID = pa.providerID
     WHERE ua.userID = @userID
 );
+SELECT * FROM dbo.GetUserAccounts(1)
