@@ -3,11 +3,12 @@ erDiagram
 
     PROVIDERS ||--|{ PROVIDER-ACCOUNTS : "offer"
 
-    ACCOUNTS ||--|{ PROVIDER-ACCOUNTS : "are provided by"
+    ACCOUNTS ||--|{ PROVIDER-ACCOUNTS : "describe"
 
     PROVIDER-ACCOUNTS ||--o{ USER-ACCOUNTS : "are associated with"
 
     INSTRUMENTS ||--o{ INVESTMENTS : "are used in"
+    
     USER-ACCOUNTS ||--o{INVESTMENTS : "own"
 
     USERS {
