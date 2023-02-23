@@ -11,6 +11,7 @@ BEGIN
     GROUP BY userName;
 END;
 -- EXEC [dbo].[GetUserInvestmentValues];
+GO
 
 -- Add New User Account
 CREATE PROCEDURE [dbo].[AddUserAccount]
@@ -71,6 +72,7 @@ EXEC dbo.AddUserAccount
     	@ProviderName = 'ABC Bank', 
     	@AccountType = 'Savings'
 */
+GO
 
 -- Insert New Investment
 CREATE PROCEDURE [dbo].[InsertInvestment]
@@ -85,6 +87,7 @@ BEGIN
     VALUES (@userAccountID, @instrumentID, @investmentValue);
 END;
 -- EXEC [dbo].[InsertInvestment] @userAccountID = <userAccountID>, @instrumentID = <instrumentID>, @investmentValue = <investmentValue>;
+GO
 
 -- Update Investment Value
 CREATE PROCEDURE [dbo].[UpdateInvestmentValue]
@@ -97,3 +100,4 @@ BEGIN
     WHERE [investmentID] = @investmentID;
 END;
 --EXEC [dbo].[UpdateInvestmentValue] @investmentID = <investmentID>, @newInvestmentValue = <newInvestmentValue>;
+GO
