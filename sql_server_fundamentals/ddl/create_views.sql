@@ -1,4 +1,4 @@
-create_views.sql
+-- create_views.sql
 
 -- Create User Account View
 CREATE VIEW UserAccountInvestments AS
