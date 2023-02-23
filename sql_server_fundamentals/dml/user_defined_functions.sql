@@ -1,4 +1,4 @@
-user_defined_functions.sql
+-- user_defined_functions.sql
 
 -- Get User Investements
 CREATE FUNCTION GetUserInvestments (@userID int)
