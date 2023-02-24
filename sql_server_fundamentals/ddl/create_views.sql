@@ -22,3 +22,11 @@ FROM Providers
 	LEFT JOIN Investments ON [User-Accounts].userAccountID = Investments.userAccountID
 GROUP BY Providers.providerName, Accounts.accountType;
 GO
+
+-- Create Value By Investment Type View
+CREATE VIEW TotalValuePerInvestmentType AS 
+SELECT dbo.Instruments.instrumentType AS [Investment Type], CONCAT('R', SUM([dbo].Investments.investmentValue)) AS [Totals]
+FROM dbo.Instruments
+	JOIN dbo.Investments ON dbo.Investments.instrumentID = dbo.Instruments.instrumentID
+GROUP BY dbo.Instruments.instrumentType
+GO
