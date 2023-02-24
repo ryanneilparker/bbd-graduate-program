@@ -45,3 +45,17 @@ RETURN
 );
 -- SELECT * FROM dbo.GetUserAccounts(1)
 GO
+
+-- Get Total Accounts
+DROP FUNCTION IF EXISTS TotalAccountsFN;
+GO
+
+CREATE FUNCTION TotalAccountsFN()
+RETURNS INT AS
+BEGIN
+	DECLARE @TOTAL AS INT;
+
+	SELECT @TOTAL = COUNT(dbo.[User-Accounts].providerAccountID) FROM [dbo].[User-Accounts];
+	RETURN  @TOTAL;
+END;
+GO
