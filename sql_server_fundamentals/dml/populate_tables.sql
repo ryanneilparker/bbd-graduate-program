@@ -1,7 +1,5 @@
 -- populate_tables.sql
 
--- populate_tables.sql
-
 -- Populate Users Table
 INSERT INTO [dbo].[Users]
 	([userName], [userEmail], [isAdmin])
